@@ -77,5 +77,3 @@ class databaseProcess():
         db.close()
         list = [item[0] for item in data]
         return list
-
-a = databaseProcess("programDatabase.db")
