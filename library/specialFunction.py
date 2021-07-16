@@ -1,7 +1,6 @@
 import os
 import glob
 
-
 class sf():
     
     @staticmethod
@@ -19,8 +18,7 @@ class sf():
             os.system("clear")
         elif (sf.getOsType == "windows"):
             os.system("cls")
-    
-    
+        
     @staticmethod
     def getFileList(path):
         return glob.glob(path)
@@ -29,6 +27,3 @@ class sf():
     def getFileListWithType(path, type):        
         data = glob.glob(path + type)
         return data
-
-a = sf()
-x = a.getFileListWithType("", "*.py")
