@@ -1,7 +1,4 @@
-from googletrans import Translator
-import  clipboard
-from databaseProcess import databaseProcess
-
+from libs import *
 
 class wordBook():
         
@@ -15,6 +12,10 @@ class wordBook():
     closeProgram = 0
     lastWord = 4
     translationType = enTr ## 2 oldugunda [En] -> [Tr] ----  3 oldugunda [Tr] -> [En]
+    def __init__(self, dbName, tableName):
+        self.dbName = dbName
+        self.tableName = tableName
+
 
     @staticmethod
     def getShorcut():
@@ -23,20 +24,20 @@ class wordBook():
         return data
 
     @staticmethod
-    def getShorcut(key):
+    def getShorcut(id):
         db = databaseProcess("programDatabase.db")
         # if(key != )
-        data = db.getDataFromTableWithColumn("shorcut", key)
+        data = db.getDataFromTableWithId("shorcut", id)
             
-
+    
 
     @staticmethod
     def changeShorcut():
         print("""Klavye Kısayolu Değiştirme Ekranına Hoşgeldiniz.  Mevcut Kısayollarınız: """)
-        print(wordBook.getShorcut())
+        print(wordBook.getShorcut(1))
 
     def wordFunction(self):
-       
+        
         if (self.translationType == self.enTr):
             sourceLanguage = "en"
             destinationLanguage = "tr"
@@ -61,7 +62,14 @@ class wordBook():
             translationText = self.translator.translate(word,  src=sourceLanguage, dest=destinationLanguage).text
             print(translationText)
 
-            write = input("Yaz ? (1): ")
+            write = input("Yaz ? ({}): ".format())
             if(write == "1"):
                 # buraya kayıt kodları yazılacak 
                 pass
+
+
+a  = wordBook("de", "sdf")
+x = a.getShorcut(1)
+
+print(x)
+

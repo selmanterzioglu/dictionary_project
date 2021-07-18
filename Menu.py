@@ -1,26 +1,102 @@
-from databaseProcess import databaseProcess
-import libs
+from libs import *
 
 class Menu():
     
+    sf = specialFunction()    
+    info = info()
+    wordDbName = "words.db"
 
     def welcomeMenu(self):
-        
+
         print("Kelime Uygulamasına Hoşgeldiniz !")
         change = input("""
         Lütfen Aşağıdaki işlemlerden birisini  seçiniz: 
         0. Çıkış
         1. Kelime Kaydetmeye Başla
         2. Kelime Çalış
-        3. Kelime Databaselerini göster """)
-
-        if (change == 0):
+        3. Kelime Listelerini Göster
+        4. Kelime Listesi Olustur
+        5. Kelime Listesi Sil 
+        --> """)
+        
+        if (change == "0"):
             exit()
-        elif (change == 1):
+        elif (change == "1"):
+            self.showWordList()
+            ## buraya devam edılecek
+        elif (change == "2"):
             pass
-        elif (change == 2):
-            pass
-        elif (change == 3):
-            pass
+        elif (change == "3"):
+            self.showWordList()
+        elif (change == "4"):
+            self.createWordList()
+        elif (change == "5"):
+            self.deleteWordList()
+        else:
+            self.info.elseChanges()  
+            self.welcomeMenu()    
+            
+    def showWordList(self):
+        db = databaseProcess(self.wordDbName)
+        wordList = db.listTableName()
+        numberWordlist = len(wordList) -1
+        
+        if (numberWordlist == 0):
+            print("[WARNING]: Veritabanınızda kelime ekleyebileceginiz  liste yok! Lütfen liste ekleyiniz.")
+                
+        else:
+            print("Veritabanında {} adet liste mevcut. Mevcut Kelime Listeleriniz: ".format(numberWordlist))
+            for i in range(1,(numberWordlist+1)):
+                print("[{}]\t".format(str(i)) + wordList[i])
+        
+        return wordList
+
+    def createWordList(self):
+        self.showWordList()
+        wordListName = input("\n\nLutfen yeni  olusturmak istediginiz liste ismini girin ('q' bir ust menu): ")
+        
+        if(wordListName == "q"):
+            self.sf.clear()
+            self.welcomeMenu()
+
+        db = databaseProcess(self.wordDbName)
+        wordList = db.listTableName()
+
+        control = False
+        for i in range(len(wordList)):
+            if(wordListName ==  wordList[i]):
+                control = True
+
+        if control == False:
+            db.createTableToDatabase(wordListName)
+        else:
+            self.sf.clear()
+            print("[HATA]: Bu liste ismi veritabanında  mevcuttur. Lutfen baska bir isim girin. ")
+            self.createWordList()
     
-    
+    def deleteWordList(self):
+        wordList = self.showWordList()
+
+        change = input(" Lufen silmek istediginiz listenin numarasini giriniz: ('q' bir ust menu):")
+        
+        if(change == "q"):
+            self.sf.clear()
+            self.welcomeMenu()
+        
+        temp = int(change)
+        change = temp
+
+        if (change >= len(wordList) or  change <= 0 ):
+            self.sf.clear()
+            print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
+            self.deleteWordList()
+        
+        db = databaseProcess(self.wordDbName)
+        db.deleteTable(wordList[change])        
+        self.sf.clear()
+        print("[BILGI]: {} adli liste basariyla silindi.! ".format(wordList[change]))
+        self.welcomeMenu()
+
+if (__name__ == '__main__'):
+    menu = Menu()
+    menu.welcomeMenu()

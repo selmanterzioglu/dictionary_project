@@ -1,7 +1,7 @@
 import os
 import glob
 
-class sf():
+class specialFunction():
     
     @staticmethod
     def getOsType():
@@ -10,13 +10,13 @@ class sf():
         elif (os.name == "nt"): 
             return "windows"
         else:
-            return "[WARNING!]: isletim sistemi tespitinde hata! Lutfen root/lib/specialFunctions.py/sf/getOsType metodunu Kontrol edin! "
+            return "[WARNING!]: isletim sistemi tespitinde hata! Lutfen root/library/specialFunctions.py/sf/getOsType metodunu Kontrol edin! "
 
     @staticmethod
     def clear():
-        if(sf.getOsType()  == "linux"):
+        if(specialFunction.getOsType()  == "linux"):
             os.system("clear")
-        elif (sf.getOsType == "windows"):
+        elif (specialFunction.getOsType == "windows"):
             os.system("cls")
         
     @staticmethod
@@ -27,3 +27,10 @@ class sf():
     def getFileListWithType(path, type):        
         data = glob.glob(path + type)
         return data
+
+
+class info(specialFunction):
+
+    def elseChanges(self):
+        self.clear()
+        print("[UYARI]: Lutfen belirtilen secenekler arasinda islem yapiniz! ") 

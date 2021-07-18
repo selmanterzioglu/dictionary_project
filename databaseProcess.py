@@ -5,10 +5,18 @@ class databaseProcess():
     def __init__(self, databaseName):
         self.dbName = databaseName
 
-    def setDataToTable(self, tableName, data):
+    def setWordDataToTable(self, tableName, data):
         db = sqlite3.connect(self.dbName)
         im = db.cursor()
         im.execute("""INSERT INTO {} VALUES (null, ?, ? )""".format(tableName), data)
+        db.commit()
+        db.close()
+
+    
+    def setShorcutDataToTable(self, tableName, data):
+        db = sqlite3.connect(self.dbName)
+        im = db.cursor()
+        im.execute("""INSERT INTO {} VALUES (null, ?, ?, ?, ?, ? )""".format(tableName), data)
         db.commit()
         db.close()
 
@@ -26,7 +34,7 @@ class databaseProcess():
         db.commit()
         db.close()
     
-    def  getDataFromTable(self, tableName):
+    def getDataFromTable(self, tableName):
         db = sqlite3.connect(self.dbName)
         im = db.cursor()
         sql = """SELECT * FROM {} """.format(tableName)
@@ -44,7 +52,7 @@ class databaseProcess():
         db.close()
         return data
 
-    def getDataFromTableWithId(self, tableName, id, columnName):
+    def getDataFromTableColumn(self, tableName, id, columnName):
         db = sqlite3.connect(self.dbName)
         im = db.cursor()
         sql = """SELECT {} FROM {} WHERE id = {}""".format(columnName, tableName, id)
