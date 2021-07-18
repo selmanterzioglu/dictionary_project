@@ -35,7 +35,30 @@ class Menu():
         else:
             self.info.elseChanges()  
             self.welcomeMenu()    
-            
+    def saveWordList(self):
+        db = databaseProcess(self.wordDbName)
+        wordList = db.listTableName()
+        if (len(wordList == 1)):
+            self.sf.clear()
+            print("[WARNING]: Veritabanınızda kelime ekleyebileceginiz  liste yok! Lütfen liste ekleyiniz.")
+            self.welcomeMenu()
+        
+        self.showWordList()
+        change = input("""
+        Lütfen yeni kelimelerinizi eklemek istediginiz listenizi seciniz: 
+        0. Bir Ust Menu
+        --> """)
+        if change == "0":
+            self.sf.clear()
+            self.welcomeMenu()
+        temp = int(change)
+        change = temp 
+
+        if (change >= len(wordList) or  change <= 0 ):
+            self.sf.clear()
+            print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
+            self.showWordList()
+        
     def showWordList(self):
         db = databaseProcess(self.wordDbName)
         wordList = db.listTableName()
