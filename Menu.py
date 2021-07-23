@@ -1,3 +1,4 @@
+from wordBook import wordBook
 from libs import *
 
 class Menu():
@@ -22,8 +23,8 @@ class Menu():
         if (change == "0"):
             exit()
         elif (change == "1"):
-            self.showWordList()
-            ## buraya devam edılecek
+            self.enterWordlistNumber()
+
         elif (change == "2"):
             pass
         elif (change == "3"):
@@ -34,7 +35,8 @@ class Menu():
             self.deleteWordList()
         else:
             self.info.elseChanges()  
-            self.welcomeMenu()    
+            self.welcomeMenu() 
+               
     def saveWordList(self):
         db = databaseProcess(self.wordDbName)
         wordList = db.listTableName()
@@ -58,6 +60,26 @@ class Menu():
             self.sf.clear()
             print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
             self.showWordList()
+    def enterWordlistNumber(self):
+        wordList = self.showWordList()
+        wordListName = input("\n\nLutfen uzerine yazmak istediginiz liste numarasini girin ('q' bir ust menu): ")
+    
+        if(wordListName == "q"):
+            self.sf.clear()
+            self.welcomeMenu()
+            pass
+
+        temp = int(wordListName)
+        wordListNumber = temp 
+
+        if (wordListNumber >= len(wordList) or  wordListNumber <= 0 ):
+            self.sf.clear()
+            print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
+            self.enterWordlistNumber()
+            pass
+
+        wb = wordBook(wordList[wordListNumber])
+        wb.changeShorcut()
         
     def showWordList(self):
         db = databaseProcess(self.wordDbName)
@@ -66,12 +88,12 @@ class Menu():
         
         if (numberWordlist == 0):
             print("[WARNING]: Veritabanınızda kelime ekleyebileceginiz  liste yok! Lütfen liste ekleyiniz.")
-                
+            pass
         else:
             print("Veritabanında {} adet liste mevcut. Mevcut Kelime Listeleriniz: ".format(numberWordlist))
             for i in range(1,(numberWordlist+1)):
                 print("[{}]\t".format(str(i)) + wordList[i])
-        
+
         return wordList
 
     def createWordList(self):
@@ -81,6 +103,7 @@ class Menu():
         if(wordListName == "q"):
             self.sf.clear()
             self.welcomeMenu()
+            pass
 
         db = databaseProcess(self.wordDbName)
         wordList = db.listTableName()
@@ -105,6 +128,7 @@ class Menu():
         if(change == "q"):
             self.sf.clear()
             self.welcomeMenu()
+            pass
         
         temp = int(change)
         change = temp
@@ -113,6 +137,7 @@ class Menu():
             self.sf.clear()
             print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
             self.deleteWordList()
+            pass
         
         db = databaseProcess(self.wordDbName)
         db.deleteTable(wordList[change])        
