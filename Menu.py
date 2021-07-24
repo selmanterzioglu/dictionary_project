@@ -1,8 +1,8 @@
-from wordBook import wordBook
 from libs import *
+from wordBook import WordBook
 
-class Menu():
-    
+class menu():
+
     sf = specialFunction()    
     info = info()
     wordDbName = "words.db"
@@ -24,7 +24,6 @@ class Menu():
             exit()
         elif (change == "1"):
             self.enterWordlistNumber()
-
         elif (change == "2"):
             pass
         elif (change == "3"):
@@ -78,8 +77,7 @@ class Menu():
             self.enterWordlistNumber()
             pass
 
-        wb = wordBook(wordList[wordListNumber])
-        wb.changeShorcut()
+        wb = WordBook(wordList[wordListNumber])
         
     def showWordList(self):
         db = databaseProcess(self.wordDbName)
@@ -146,5 +144,5 @@ class Menu():
         self.welcomeMenu()
 
 if (__name__ == '__main__'):
-    menu = Menu()
+    menu = menu()
     menu.welcomeMenu()
