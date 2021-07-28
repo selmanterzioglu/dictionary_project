@@ -20,7 +20,7 @@ class shorcutClass():
     
     def updateShorcutData(self, columnName, newShorcut):
         db = databaseProcess(self.programDbName)
-        db.updateDataFromTable(self.tableName, 1, columnName, newShorcut)
+        db.updateDataFromTable("shorcut", 1, columnName, newShorcut)
 
     @staticmethod
     def getDefaultShorcut():
@@ -72,13 +72,13 @@ class WordBook():
 
     def getShorcut(self):
         shorcutData = self.shorcut.getCustomShorcut()
-        Save = shorcutData[0] 
-        enTr = shorcutData[1]
-        trEn = shorcutData[2]
-        closeProgram = shorcutData[3]
-        translationType =  shorcutData[4]
+        self.Save = shorcutData[0] 
+        self.enTr = shorcutData[1]
+        self.trEn = shorcutData[2]
+        self.closeProgram = shorcutData[3]
+        self.translationType =  shorcutData[4]
     
-        return [Save, enTr, trEn, closeProgram, translationType]
+        return [self.Save, self.enTr, self.trEn, self.closeProgram, self.translationType]
 
     def welcomeMenu(self):
         print("Kelime Kaydetme Modulune Hosgeldiniz.!")
@@ -110,14 +110,11 @@ class WordBook():
         print("""Klavye Kısayolu Değiştirme Ekranına Hoşgeldiniz. Mevcut Kısayollarınız: """)
         print("[0]Save: {}\n[1]En->Tr: {}\n[2]Tr->En: {}\n[3]Close Program: {}\n[4]Translation Type: {}"
         .format(self.getShorcut()[0], self.getShorcut()[1], self.getShorcut()[2], self.getShorcut()[3], self.getShorcut()[4]) )
-        change = input("\n\n Lutfen degistirmek istediginiz kisayolun en basindaki  numarayi giriniz.  \nOrnek: [0] Save Icın '0'('q' bir ust menu): ")
+        change = input("\n\nLutfen degistirmek istediginiz kisayolun en basindaki  numarayi giriniz.  \nOrnek: [0] Save Icın '0'('q' bir ust menu): ")
         
 
-        if (change != "q" or change == "0" or  change != "1" or change != "2" or change != "3" or change != "4"):
-            info.elseChanges()   
-            self.changeShorcut()
-            pass
-        elif(change == "q"):
+        if(change == "q"):
+            self.sf.clear()
             self.welcomeMenu()
             pass
 
@@ -138,13 +135,18 @@ class WordBook():
             newShorcut = int (input("{} icin yeni kisayol seciniz! \nEn->Tr Icın: {}\nTr->En Icın: {} -->".format(selectedShorcut, self.shorcut.getCustomShorcut()[1], self.shorcut.getCustomShorcut()[2])) )
             if (newShorcut == self.shorcut.getCustomShorcut()[1] or newShorcut == self.shorcut.getCustomShorcut()[2]):
                 self.shorcut.updateShorcutData(selectedShorcut, newShorcut)
+                self.sf.clear()
                 print("{} icin yeni  kisayol  tusu {} olarak ayarlanmistir. ".format(selectedShorcut, newShorcut))
-                pass
-            else:
-                info.elseChanges()
                 self.changeShorcut()
                 pass
-            
+            else:
+                self.info.elseChanges()
+                self.changeShorcut()
+                pass
+        else:
+            self.info.elseChanges()   
+            self.changeShorcut()
+            pass
         newShorcut = int (input("{} icin yeni kisayol tusunu giriniz. Yeni kisayol sayi olmak zorundadir! -->".format(selectedShorcut)) )
         self.shorcut.updateShorcutData(selectedShorcut, newShorcut)
         self.sf.clear()
@@ -153,37 +155,45 @@ class WordBook():
 
     def wordFunction(self):
         word = ""
-        if (self.translationType == self.enTr):
-            sourceLanguage = "en"
-            destinationLanguage = "tr"
-            word = input("[En] -> [Tr] Kelime: ")
+        while 1:
 
-        elif (self.translationType == self.trEn):
-            sourceLanguage = "tr"
-            destinationLanguage = "en"
-            word = input("[Tr] -> [En] Kelime: ")
+            if (self.translationType == self.enTr):
+                sourceLanguage = "en"
+                destinationLanguage = "tr"
+                word = input("[En] -> [Tr] Kelime: ")
 
-        pyperclip.copy(word)
+            elif (self.translationType == self.trEn):
+                sourceLanguage = "tr"
+                destinationLanguage = "en"
+                word = input("[Tr] -> [En] Kelime: ")
 
-        if (word == str(self.enTr)):
-            translationType = self.enTr
-        elif (word ==  str(self.trEn)):
-            translationType = self.trEn
-        elif (word == str(self.closeProgram)):
-            self.menu.welcomeMenu()
-        else:
-            word = word.lower()
+            pyperclip.copy(word)
+            
+            if (word == str(self.enTr)):
+                self.translationType = self.enTr
+            elif (word ==  str(self.trEn)):
+                self.translationType = self.trEn
+            elif (word == str(self.closeProgram)):
+                self.welcomeMenu()
+            else:
+                word = word.lower()
 
-            translationText = self.translator.translate(word,  src=sourceLanguage, dest=destinationLanguage).text
-            print(translationText)
+                translationText = self.translator.translate(word,  src=sourceLanguage, dest=destinationLanguage).text
+                print(translationText)
 
-            write = input("Yaz ? ({}): ".format(str(self.Save)))
-            if(write == str(self.Save)):
-                # buraya kayıt kodları yazılacak 
-                
-                db = databaseProcess(self.wordDbName)
-                if (self.translationType == self.enTr ):
-                    db.setWordDataToTable(self.tableName, (word, translationText))
-                else: 
-                    db.setWordDataToTable(self.tableName, (translationText, word))
+                write = input("Kaydet ? ({}): ".format(str(self.Save)))
+                if(write == str(self.Save)):
+                    db = databaseProcess(self.wordDbName)
+
+                    if (self.translationType == self.enTr ):
+                        if (not db.searchDataFromDatabase(self.tableName, "en", word)):
+                            db.setWordDataToTable(self.tableName, (word, translationText))
+                        else: 
+                            print("[UYARI]: Bu kelime daha once kaydedilmistir! ")
+                    else: 
+                        if (not db.searchDataFromDatabase(self.tableName, "tr", word)):
+                          db.setWordDataToTable(self.tableName, (translationText, word))
+                        else: 
+                            print("[UYARI]: Bu kelime daha once kaydedilmistir! ")
+                       
 
