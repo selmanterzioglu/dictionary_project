@@ -12,7 +12,14 @@ class databaseProcess():
         db.commit()
         db.close()
 
-    
+    def searchDataFromDatabase(self,tableName, columnName, data):
+        db = sqlite3.connect(self.dbName)
+        im = db.cursor()
+        im.execute("""SELECT * FROM {} WHERE {} = '{}'""".format(tableName, columnName, data))
+        returnData = im.fetchall()
+        db.close()
+        return returnData
+
     def setShorcutDataToTable(self, tableName, data):
         db = sqlite3.connect(self.dbName)
         im = db.cursor()
@@ -85,3 +92,23 @@ class databaseProcess():
         db.close()
         list = [item[0] for item in data]
         return list
+    
+    def getLineCountFromTable(self, tableName):
+        db = sqlite3.connect(self.dbName)
+        im = db.cursor()
+        sql = """SELECT COUNT(*) FROM {}""".format(tableName)
+        im.execute(sql)
+        data = im.fetchone()[0]
+        db.close()
+        return data
+
+    def getLineCountFromtableWithColumn(self, tableName, columnName):
+            db = sqlite3.connect(self.dbName)
+            im = db.cursor()
+            sql = """SELECT COUNT({}) FROM {}""".format(columnName, tableName)
+            im.execute(sql)
+            data = im.fetchone()[0]
+            db.close()
+            return data
+
+        
