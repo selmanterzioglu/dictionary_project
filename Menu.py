@@ -1,5 +1,6 @@
 from libs import *
 from wordBook import *
+from runWords import *
 
 class menu():
 
@@ -27,7 +28,7 @@ class menu():
         if (change == "0"):
             exit()
         elif (change == "1"):
-            self.enterWordlistNumber()
+            self.wordBook()
         elif (change == "2"):
             pass
         elif (change == "3"):
@@ -72,7 +73,7 @@ class menu():
             self.sf.clear()
             print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
             self.showWordList()
-    def enterWordlistNumber(self):
+    def runWordBook(self):
         wordList = self.showWordList()
         wordListName = input("\n\nLutfen uzerine yazmak istediginiz liste numarasini girin ('q' bir ust menu): ")
     
@@ -87,11 +88,30 @@ class menu():
         if (wordListNumber >= len(wordList) or  wordListNumber <= 0 ):
             self.sf.clear()
             print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
-            self.enterWordlistNumber()
+            self.runWordBook()
             pass
 
         wb = WordBook(wordList[wordListNumber])
-        
+    def runWords(self):
+        wordList = self.showWordList()
+        wordListName = input("\n\nLutfen kelimelerini calismak istediginiz listenin numarasini  girin ('q' bir ust menu): ")
+    
+        if(wordListName == "q"):
+            self.sf.clear()
+            self.welcomeMenu()
+            pass
+
+        temp = int(wordListName)
+        wordListNumber = temp 
+
+        if (wordListNumber >= len(wordList) or  wordListNumber <= 0 ):
+            self.sf.clear()
+            print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
+            self.runWordBook()
+            pass
+        else:
+            rw = runWords(wordList[wordListNumber])
+
     def showWordList(self):
         db = databaseProcess(self.wordDbName)
         wordList = db.listTableName()
