@@ -16,7 +16,8 @@ class shorcutClass():
         db.updateDataFromTable("shorcut", 1, "enTr", self.getDefaultShorcut()[1])
         db.updateDataFromTable("shorcut", 1, "trEn", self.getDefaultShorcut()[2])
         db.updateDataFromTable("shorcut", 1, "closeProgram", self.getDefaultShorcut()[3])
-        db.updateDataFromTable("shorcut", 1, "translationType", self.getDefaultShorcut()[4])
+        db.updateDataFromTable("shorcut", 1, "saveDifferentWord", self.getDefaultShorcut()[4])
+        db.updateDataFromTable("shorcut", 1, "translationType", self.getDefaultShorcut()[5])
     
     def updateShorcutData(self, columnName, newShorcut):
         db = databaseProcess(self.programDbName)
@@ -28,8 +29,9 @@ class shorcutClass():
         enTr = 2
         trEn = 3
         closeProgram = 0
+        saveDifferentWord = 4
         translationType = enTr
-        return [save, enTr, trEn, closeProgram, translationType]
+        return [save, enTr, trEn, closeProgram, saveDifferentWord, translationType]
 
     def getCustomShorcut(self):
         db = databaseProcess(self.programDbName)
@@ -64,6 +66,7 @@ class WordBook():
     trEn = None
     closeProgram = None
     translationType = None
+    saveDifferentProgram = None
 
     def __init__(self, tableName):
         self.tableName = tableName
@@ -76,9 +79,10 @@ class WordBook():
         self.enTr = shorcutData[1]
         self.trEn = shorcutData[2]
         self.closeProgram = shorcutData[3]
-        self.translationType =  shorcutData[4]
+        self.saveDifferentProgram = shorcutData[4]
+        self.translationType =  shorcutData[5]
     
-        return [self.Save, self.enTr, self.trEn, self.closeProgram, self.translationType]
+        return [self.Save, self.enTr, self.trEn, self.closeProgram, self.saveDifferentProgram, self.translationType]
 
     def welcomeMenu(self):
         change = input("""
@@ -93,15 +97,23 @@ class WordBook():
             3. Klavye Kisayollarini Degistir
         ****************************************************
         --> """.format(self.tableName))
-        
+
+        self.sf.clear()
+
         if (change == "0"):
             exit()
         elif (change == "1"):
             self.wordFunction()
         elif (change == "2"):
             self.sf.clear()
-            print("[0]Save: {}\n[1]En->Tr: {}\n[2]Tr->En: {}\n[3]Close Program: {}\n[4]Translation Type: {}"
-            .format(self.getShorcut()[0], self.getShorcut()[1], self.getShorcut()[2], self.getShorcut()[3], self.getShorcut()[4]) )
+            print("""
+            [0]Save: {}
+            [1]En->Tr: {}
+            [2]Tr->En: {}
+            [3]Close Program: {}
+            [4]Save Different Word: {}
+            [5]Translation Type: {}"""
+            .format(self.getShorcut()[0], self.getShorcut()[1], self.getShorcut()[2], self.getShorcut()[3], self.getShorcut()[4], self.getShorcut()[5]) )
             self.welcomeMenu()
         elif (change == "3"):
             self.changeShorcut()
@@ -111,10 +123,16 @@ class WordBook():
 
     def changeShorcut(self):
         print("""Klavye Kısayolu Değiştirme Ekranına Hoşgeldiniz. Mevcut Kısayollarınız: """)
-        print("[0]Save: {}\n[1]En->Tr: {}\n[2]Tr->En: {}\n[3]Close Program: {}\n[4]Translation Type: {}"
-        .format(self.getShorcut()[0], self.getShorcut()[1], self.getShorcut()[2], self.getShorcut()[3], self.getShorcut()[4]) )
-        change = input("\n\nLutfen degistirmek istediginiz kisayolun en basindaki  numarayi giriniz.  \nOrnek: [0] Save Icın '0'('q' bir ust menu): ")
+        print("""
+        [0]Save: {}
+        [1]En->Tr: {}
+        [2]Tr->En: {}
+        [3]Close Program: {}
+        [4]Save Different Word: {}
+        [5]Translation Type: {}"""
+        .format(self.getShorcut()[0], self.getShorcut()[1], self.getShorcut()[2], self.getShorcut()[3], self.getShorcut()[4], self.getShorcut()[5]) )
         
+        change = input("\n\nLutfen degistirmek istediginiz kisayolun en basindaki  numarayi giriniz.  \nOrnek: [0] Save Icın '0'('q' bir ust menu): ")
 
         if(change == "q"):
             self.sf.clear()
@@ -133,6 +151,8 @@ class WordBook():
         elif (change == 3):
             selectedShorcut = "closeProgram"
         elif (change == 4):
+            selectedShorcut = "saveDifferentWord"
+        elif (change == 5):
             selectedShorcut = "translationType"
             
             newShorcut = int (input("{} icin yeni kisayol seciniz! \nEn->Tr Icın: {}\nTr->En Icın: {} -->".format(selectedShorcut, self.shorcut.getCustomShorcut()[1], self.shorcut.getCustomShorcut()[2])) )
@@ -155,11 +175,32 @@ class WordBook():
         self.sf.clear()
         print("[BILGI]: {} icin yeni  kisayol  tusu {} olarak ayarlanmistir. ".format(selectedShorcut, newShorcut))
         self.changeShorcut()
+    
 
+    def saveWordToDatabase(self, write, word, translationText, saveType):
+
+        if(write == str(self.Save)):
+            db = databaseProcess(self.wordDbName)
+
+            if (self.translationType == self.enTr):
+                if(saveType):
+                    db.setWordDataToTable(self.tableName, (word, translationText))
+                elif (not db.searchDataFromDatabase(self.tableName, "en", word)):
+                    db.setWordDataToTable(self.tableName, (word, translationText))
+                else:
+                    print("[UYARI]: Bu kelime daha once kaydedilmistir! ")
+            else: 
+                if(saveType):
+                    db.setWordDataToTable(self.tableName, (translationText, word))
+                elif (not db.searchDataFromDatabase(self.tableName, "tr", word)):
+                    db.setWordDataToTable(self.tableName, (translationText, word))
+                else:
+                    print("[UYARI]: Bu kelime daha once kaydedilmistir! ")
+        
     def wordFunction(self):
         word = ""
         while 1:
-
+            
             if (self.translationType == self.enTr):
                 sourceLanguage = "en"
                 destinationLanguage = "tr"
@@ -179,24 +220,30 @@ class WordBook():
             elif (word == str(self.closeProgram)):
                 self.sf.clear()
                 self.welcomeMenu()
+            elif(word == str(self.saveDifferentProgram)):
+                
+                word = input("Lutfen sozluk harici eklemek istediginiz kelimeyi Giriniz\n('q Bir ust menu: ')\n-->")
+                word = word.lower()
+                if(word == "q"):
+                    self.sf.clear()
+                    continue
+
+                translationText = input("'{}' adli kelimenin cevirisini girin: \n('q Bir ust menu: ')\n-->".format(word))
+                translationText = translationText.lower()
+
+                if(translationText == "q"):
+                    self.sf.clear()
+                    continue
+                
+                self.saveWordToDatabase(str(self.Save), word, translationText, True)
+                print("[BILGI]: {} kelimesi {} cevirisiyle kaydedildi.!".format(word, translationText))
+                
             else:
                 word = word.lower()
                 translationText = self.translator.translate(word,  src=sourceLanguage, dest=destinationLanguage).text
                 print(translationText)
 
                 write = input("Kaydet ? ({}): ".format(str(self.Save)))
-                if(write == str(self.Save)):
-                    db = databaseProcess(self.wordDbName)
-
-                    if (self.translationType == self.enTr ):
-                        if (not db.searchDataFromDatabase(self.tableName, "en", word)):
-                            db.setWordDataToTable(self.tableName, (word, translationText))
-                        else: 
-                            print("[UYARI]: Bu kelime daha once kaydedilmistir! ")
-                    else: 
-                        if (not db.searchDataFromDatabase(self.tableName, "tr", word)):
-                          db.setWordDataToTable(self.tableName, (translationText, word))
-                        else: 
-                            print("[UYARI]: Bu kelime daha once kaydedilmistir! ")
-                       
+                self.saveWordToDatabase(write, word, translationText, False)
+                self.sf.clear()
 

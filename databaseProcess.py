@@ -23,7 +23,7 @@ class databaseProcess():
     def setShorcutDataToTable(self, tableName, data):
         db = sqlite3.connect(self.dbName)
         im = db.cursor()
-        im.execute("""INSERT INTO {} VALUES (null, ?, ?, ?, ?, ? )""".format(tableName), data)
+        im.execute("""INSERT INTO {} VALUES (null, ?, ?, ?, ?, ?, ?)""".format(tableName), data)
         db.commit()
         db.close()
 
