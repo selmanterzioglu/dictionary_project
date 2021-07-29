@@ -8,7 +8,7 @@ class databaseProcess():
     def setWordDataToTable(self, tableName, data):
         db = sqlite3.connect(self.dbName)
         im = db.cursor()
-        im.execute("""INSERT INTO {} VALUES (null, ?, ? )""".format(tableName), data)
+        im.execute("""INSERT INTO {} VALUES (null, ?, ?, 0, 0)""".format(tableName), data)
         db.commit()
         db.close()
 
@@ -30,7 +30,7 @@ class databaseProcess():
     def createTableToDatabase(self, newTableName):
         db = sqlite3.connect(self.dbName)
         im = db.cursor()
-        im.execute("""CREATE TABLE IF NOT EXISTS {} ("id" INTEGER NOT NULL, "en" TEXT NOT NULL, "tr" INTEGER NOT NULL, PRIMARY KEY("id" AUTOINCREMENT))""".format(newTableName) )
+        im.execute("""CREATE TABLE IF NOT EXISTS {} ("id" INTEGER NOT NULL, "en" TEXT NOT NULL, "tr" INTEGER NOT NULL, "mistake" INTEGER, "correct" INTEGER, PRIMARY KEY("id" AUTOINCREMENT))""".format(newTableName) )
         db.close()
 
     def updateDataFromTable(self, tableName, id, columnName, data):
@@ -111,4 +111,17 @@ class databaseProcess():
             db.close()
             return data
 
+    def setDataAllColumnsFromTable(self, tableName, columnName):
+        db = sqlite3.connect(self.dbName)
+        im = db.cursor()
+        sql = "UPDATE {} SET {}= 0".format(tableName, columnName)
+        im.execute(sql)
+        db.commit()
+        db.close()
         
+
+if __name__ == "__main__":
+
+    a = databaseProcess("words.db")
+    x = a.getDataFromTable("kelime")[0][1]
+    print(x)

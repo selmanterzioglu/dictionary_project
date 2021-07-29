@@ -1,5 +1,6 @@
 from Menu import *
 
 if (__name__ == '__main__'):
-    menu = Menu()
-    menu.welcomeMenu()
+    Menu = menu()
+    Menu.sf.clear()
+    Menu.welcomeMenu()

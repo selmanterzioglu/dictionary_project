@@ -81,15 +81,18 @@ class WordBook():
         return [self.Save, self.enTr, self.trEn, self.closeProgram, self.translationType]
 
     def welcomeMenu(self):
-        print("Kelime Kaydetme Modulune Hosgeldiniz.!")
-
         change = input("""
+        Kelime Kaydetme Modulune Hosgeldiniz.!
+        Kayit islemi {} adli listeye yapilacaktir.
+
         Lütfen Aşağıdaki işlemlerden birisini  seçiniz: 
-        0. Cikis
-        1. Kelime Kaydetme Islemine Devam Et
-        2. Klavye Kisayollarini Goster
-        3. Klavye Kisayollarini Degistir
-        --> """)
+        ****************************************************
+            0. Cikis
+            1. Kelime Kaydetme Islemine Devam Et
+            2. Klavye Kisayollarini Goster
+            3. Klavye Kisayollarini Degistir
+        ****************************************************
+        --> """.format(self.tableName))
         
         if (change == "0"):
             exit()
@@ -174,10 +177,10 @@ class WordBook():
             elif (word ==  str(self.trEn)):
                 self.translationType = self.trEn
             elif (word == str(self.closeProgram)):
+                self.sf.clear()
                 self.welcomeMenu()
             else:
                 word = word.lower()
-
                 translationText = self.translator.translate(word,  src=sourceLanguage, dest=destinationLanguage).text
                 print(translationText)
 

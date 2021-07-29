@@ -9,18 +9,22 @@ class menu():
     wordDbName = "words.db"
     shorcut = shorcutClass()
 
-
     def welcomeMenu(self):
-
-        print("Kelime Uygulamasına Hoşgeldiniz !")
+        
+        print("")
         change = input("""
+        Kelime Uygulamasına Hoşgeldiniz !
+
+        
         Lütfen Aşağıdaki işlemlerden birisini  seçiniz: 
-        0. Çıkış
-        1. Kelime Kaydetmeye Başla
-        2. Kelime Çalış
-        3. Kelime Listelerini Göster
-        4. Kelime Listesi Olustur
-        5. Kelime Listesi Sil 
+        ****************************************************
+            0. Çıkış
+            1. Kelime Kaydetmeye Başla
+            2. Kelime Çalış
+            3. Kelime Listelerini Göster
+            4. Kelime Listesi Olustur
+            5. Kelime Listesi Sil 
+        ****************************************************
         --> """)
 
         self.sf.clear()
@@ -28,9 +32,9 @@ class menu():
         if (change == "0"):
             exit()
         elif (change == "1"):
-            self.wordBook()
+            self.runWordBook()
         elif (change == "2"):
-            pass
+            self.runWords()
         elif (change == "3"):
             self.showWordList()
             wordListName = input("\n\n('q' bir ust menu): -->")
@@ -41,7 +45,6 @@ class menu():
             
             self.sf.clear()
             self.welcomeMenu()
-
         elif (change == "4"):
             self.createWordList()
         elif (change == "5"):
@@ -84,9 +87,9 @@ class menu():
 
         temp = int(wordListName)
         wordListNumber = temp 
-
+        
+        self.sf.clear()
         if (wordListNumber >= len(wordList) or  wordListNumber <= 0 ):
-            self.sf.clear()
             print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
             self.runWordBook()
             pass
@@ -103,9 +106,9 @@ class menu():
 
         temp = int(wordListName)
         wordListNumber = temp 
+        self.sf.clear()
 
         if (wordListNumber >= len(wordList) or  wordListNumber <= 0 ):
-            self.sf.clear()
             print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
             self.runWordBook()
             pass
@@ -132,18 +135,16 @@ class menu():
                 if (db.getLineCountFromTable(wordList[i]) >= maxWordTableLength):
                     maxWordTableLength = db.getLineCountFromTable(wordList[i])
             
-            print("Veritabanında {} adet liste mevcut. Mevcut Kelime Listeleriniz: ".format(numberWordlist))
-            print("\n*************************************")
-            print(f"{'No': <{len(str(numberWordlist)) + 2}} {'Ad': <{maxWordTableNameLength}}  {'Kayitli Kelime Sayisi': <{maxWordTableLength}}")
+            print("[BILGI]: Veritabanında {} adet liste mevcut. \nMevcut Kelime Listeleriniz: ".format(numberWordlist))
+            print("****************************************************")
+            print("\t" + f"{'No': <{len(str(numberWordlist)) + 2}} {'Ad': <{maxWordTableNameLength}}  {'Kayitli Kelime Sayisi': <{maxWordTableLength}}")
             for i in range(1,(numberWordlist+1)):
-                tableNumber = "[{}]".format(i)
+                tableNumber = "\t[{}]".format(i)
                 tableName = wordList[i]
                 tableWordCount = str (db.getLineCountFromTable(wordList[i]))
                 print(f"{tableNumber: <{i}} {tableName: <{maxWordTableNameLength}} {tableWordCount: ^{maxWordTableLength}}")
-
-                # print(tableName.ljust(maxWordTableNameLength) + tableWordCount.center(maxWordTableLength))
-                # print(tableName.ljust(maxWordTableNameLength) + tableWordCount.rjust(10))
-            print("*************************************\n")
+            
+            print("****************************************************\n")
 
         return wordList
 
@@ -157,13 +158,13 @@ class menu():
             pass
 
         db = databaseProcess(self.wordDbName)
-        wordList = db.listTableName()
+        wordList = self.showWordList()
 
         control = False
         for i in range(len(wordList)):
             if(wordListName ==  wordList[i]):
                 control = True
-
+        
         if control == False:
             db.createTableToDatabase(wordListName)
             self.sf.clear()
@@ -191,7 +192,6 @@ class menu():
         temp = int(change)
         change = temp
         
-
         if (change >= len(wordList) or  change <= 0 ):
             self.sf.clear()
             print("[HATA]: Girdiginiz deger herhangi  bir listeye ait degil")
@@ -214,5 +214,7 @@ class menu():
             self.deleteWordList()
 
 if (__name__ == '__main__'):
-    menu = menu()
-    menu.welcomeMenu()
+    Menu = menu()
+    Menu.sf.clear()
+    Menu.welcomeMenu()
+
