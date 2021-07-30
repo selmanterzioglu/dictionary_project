@@ -15,3 +15,5 @@ pip install PyQt4 to install the PyQt4 Python module.
 
 Kaynak: 
 https://pyperclip.readthedocs.io/en/latest/index.html#not-implemented-error
+
+Program gereksinimleri requirements.txt dossyasında mevcuttur. venv için kullanılmalıdır !
