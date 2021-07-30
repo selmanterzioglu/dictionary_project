@@ -212,9 +212,3 @@ class menu():
             self.sf.clear()
             print("[BILGI]: {} adli listenin silme islemi iptal edildi.! ".format(wordList[change]))
             self.deleteWordList()
-
-if (__name__ == '__main__'):
-    Menu = menu()
-    Menu.sf.clear()
-    Menu.welcomeMenu()
-

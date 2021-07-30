@@ -119,9 +119,3 @@ class databaseProcess():
         db.commit()
         db.close()
         
-
-if __name__ == "__main__":
-
-    a = databaseProcess("words.db")
-    x = a.getDataFromTable("kelime")[0][1]
-    print(x)
