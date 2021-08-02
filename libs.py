@@ -5,4 +5,3 @@ from databaseProcess import *
 from specialFunction import *
 import numpy 
 
-#

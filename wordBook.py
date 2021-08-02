@@ -241,6 +241,7 @@ class WordBook():
             else:
                 word = word.lower()
                 translationText = self.translator.translate(word,  src=sourceLanguage, dest=destinationLanguage).text
+                translationText = translationText.lower()
                 print(translationText)
 
                 write = input("Kaydet ? ({}): ".format(str(self.Save)))
