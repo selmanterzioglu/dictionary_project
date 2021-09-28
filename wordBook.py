@@ -223,12 +223,15 @@ class WordBook():
             elif(word == str(self.saveDifferentProgram)):
                 
                 word = input("Lutfen sozluk harici eklemek istediginiz kelimeyi Giriniz\n('q Bir ust menu: ')\n-->")
+                word = word.strip()
                 word = word.lower()
+                
                 if(word == "q"):
                     self.sf.clear()
                     continue
 
                 translationText = input("'{}' adli kelimenin cevirisini girin: \n('q Bir ust menu: ')\n-->".format(word))
+                translationText = translationText.strip()
                 translationText = translationText.lower()
 
                 if(translationText == "q"):
