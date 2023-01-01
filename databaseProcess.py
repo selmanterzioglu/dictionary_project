@@ -2,119 +2,143 @@ import sqlite3
 
 class databaseProcess():
     
-    def __init__(self, databaseName):
-        self.dbName = databaseName
+    def __init__(self, database_name):
+        self.database_name = database_name
 
-    def setWordDataToTable(self, tableName, data):
-        db = sqlite3.connect(self.dbName)
+    def setWordDataToTable(self, table_name, data):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        im.execute("""INSERT INTO {} VALUES (null, ?, ?, 0, 0)""".format(tableName), data)
+        data_str = ""
+        for i in data: 
+            data_str +=", \"" +i + "\""
+
+        if(len(data) == 2):
+            im.execute("""INSERT INTO {} VALUES (null {}, null, null, null, null)""".format(table_name, data_str))
+        elif(len(data) == 3):
+            im.execute("""INSERT INTO {} VALUES (null {}, null, null, null)""".format(table_name, data_str))
+        elif(len(data) == 4):
+            im.execute("""INSERT INTO {} VALUES (null {}, null, null)""".format(table_name, data_str))
+        elif(len(data) == 5):
+            im.execute("""INSERT INTO {} VALUES (null {}, null)""".format(table_name, data_str))
+        elif(len(data) == 6):
+            im.execute("""INSERT INTO {} VALUES (null {})""".format(table_name, data_str))
+
         db.commit()
         db.close()
 
-    def searchDataFromDatabase(self,tableName, columnName, data):
-        db = sqlite3.connect(self.dbName)
+    def searchDataFromDatabase(self,table_name, column_name, data):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        im.execute("""SELECT * FROM {} WHERE {} = '{}'""".format(tableName, columnName, data))
+        im.execute("""SELECT * FROM {} WHERE {} = '{}'""".format(table_name, column_name, data))
         returnData = im.fetchall()
         db.close()
         return returnData
 
-    def setShorcutDataToTable(self, tableName, data):
-        db = sqlite3.connect(self.dbName)
+    def delete_row(self, table_name, id):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        im.execute("""INSERT INTO {} VALUES (null, ?, ?, ?, ?, ?, ?)""".format(tableName), data)
+        im.execute("""DELETE FROM {} WHERE ID = {}""".format(table_name, id))
         db.commit()
         db.close()
 
-    def createTableToDatabase(self, newTableName):
-        db = sqlite3.connect(self.dbName)
+    def createTableToDatabase(self, newtable_name):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        im.execute("""CREATE TABLE IF NOT EXISTS {} ("id" INTEGER NOT NULL, "en" TEXT NOT NULL, "tr" INTEGER NOT NULL, "mistake" INTEGER, "correct" INTEGER, PRIMARY KEY("id" AUTOINCREMENT))""".format(newTableName) )
+
+        im.execute("""
+        CREATE TABLE IF NOT EXISTS {} 
+        ("id" INTEGER NOT NULL, "en" TEXT NOT NULL, "tr" TEXT NOT NULL,
+        "ex_1" TEXT, 
+        "ex_2" TEXT,
+        "ex_3" TEXT,
+        "ex_4" TEXT,
+        PRIMARY KEY("id" AUTOINCREMENT))""".format(newtable_name) )
+        
         db.close()
 
-    def updateDataFromTable(self, tableName, id, columnName, data):
-        db = sqlite3.connect(self.dbName)
+    def updateDataFromTable(self, table_name, id, column_name, data):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        sql  = """UPDATE {} SET {} = '{}' WHERE id = {}""".format(tableName, columnName, data, id)
+        sql  = """UPDATE {} SET {} = '{}' WHERE id = {}""".format(table_name, column_name, data, id)
         im.execute(sql)
         db.commit()
         db.close()
     
-    def getDataFromTable(self, tableName):
-        db = sqlite3.connect(self.dbName)
+    def getDataFromTable(self, table_name):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        sql = """SELECT * FROM {} """.format(tableName)
+        sql = """SELECT * FROM {} """.format(table_name)
         im.execute(sql)
         data = im.fetchall()
         db.close()
         return data
 
-    def getDataFromTableWithId(self, tableName, id):
-        db = sqlite3.connect(self.dbName)
+    def getDataFromTableWithId(self, table_name, id):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        sql = """SELECT * FROM {} WHERE id = {}""".format(tableName, id)
+        sql = """SELECT * FROM {} WHERE id = {}""".format(table_name, id)
         im.execute(sql)
         data = im.fetchall()
         db.close()
         return data
 
-    def getDataFromTableColumn(self, tableName, id, columnName):
-        db = sqlite3.connect(self.dbName)
+    def getDataFromTableColumn(self, table_name, id, column_name):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        sql = """SELECT {} FROM {} WHERE id = {}""".format(columnName, tableName, id)
+        sql = """SELECT {} FROM {} WHERE id = {}""".format(column_name, table_name, id)
         im.execute(sql)
         data = im.fetchall()
         db.close()
         return data
     
-    def deleteTable(self, tableName):
-        tableList = self.listTableName()
+    def deleteTable(self, table_name):
+        tableList = self.listtable_name()
 
         control = False
         for i in tableList:
-            if (i == tableName):
-                db = sqlite3.connect(self.dbName)
+            if (i == table_name):
+                db = sqlite3.connect(self.database_name)
                 im = db.cursor()
-                sql = """DROP TABLE {}""".format(tableName)    
+                sql = """DROP TABLE {}""".format(table_name)    
                 im.execute(sql)
                 db.close()
                 control = True
 
         return control
 
-    def listTableName(self):
-        db = sqlite3.connect(self.dbName)
+    def list_table_name(self):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
         sql = """SELECT name FROM sqlite_master"""
         im.execute(sql)
         data = im.fetchall()
         db.close()
         list = [item[0] for item in data]
+        list.pop(0)
         return list
     
-    def getLineCountFromTable(self, tableName):
-        db = sqlite3.connect(self.dbName)
+    def getLineCountFromTable(self, table_name):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        sql = """SELECT COUNT(*) FROM {}""".format(tableName)
+        sql = """SELECT COUNT(*) FROM {}""".format(table_name)
         im.execute(sql)
         data = im.fetchone()[0]
         db.close()
         return data
 
-    def getLineCountFromtableWithColumn(self, tableName, columnName):
-            db = sqlite3.connect(self.dbName)
+    def getLineCountFromtableWithColumn(self, table_name, column_name):
+            db = sqlite3.connect(self.database_name)
             im = db.cursor()
-            sql = """SELECT COUNT({}) FROM {}""".format(columnName, tableName)
+            sql = """SELECT COUNT({}) FROM {}""".format(column_name, table_name)
             im.execute(sql)
             data = im.fetchone()[0]
             db.close()
             return data
 
-    def setDataAllColumnsFromTable(self, tableName, columnName):
-        db = sqlite3.connect(self.dbName)
+    def setDataAllColumnsFromTable(self, table_name, column_name):
+        db = sqlite3.connect(self.database_name)
         im = db.cursor()
-        sql = "UPDATE {} SET {}= 0".format(tableName, columnName)
+        sql = "UPDATE {} SET {}= 0".format(table_name, column_name)
         im.execute(sql)
         db.commit()
         db.close()
