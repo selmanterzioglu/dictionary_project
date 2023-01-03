@@ -48,10 +48,10 @@ class databaseProcess():
         im.execute("""
         CREATE TABLE IF NOT EXISTS {} 
         ("id" INTEGER NOT NULL, "en" TEXT NOT NULL, "tr" TEXT NOT NULL,
-        "ex_1" TEXT, 
-        "ex_2" TEXT,
-        "ex_3" TEXT,
-        "ex_4" TEXT,
+        "ex_1_en" TEXT, 
+        "ex_1_tr" TEXT,
+        "ex_2_en" TEXT,
+        "ex_2_tr" TEXT,
         PRIMARY KEY("id" AUTOINCREMENT))""".format(newtable_name) )
         
         db.close()
