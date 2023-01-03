@@ -108,10 +108,7 @@ class read_database(QtWidgets.QMainWindow):
                 self.db.createTableToDatabase(text)
                 sf.msg_box("Kayit Basarili", "{} adli kelime listesi veritabanina basariyla kaydedilmistir.".format(text))
                 self.comboBox_database_list.addItem(text)
-                
 
-
-    
     def create_csv_file(self, file_name):
         data_for_write = ""
         counter = 0

@@ -5,6 +5,7 @@ from save_manuel_word import save_manuel_word
 from databaseProcess import databaseProcess
 from read_database import read_database
 import special_functions as sf
+from word_translate import word_translate
 
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
@@ -53,7 +54,10 @@ class Ui(QtWidgets.QMainWindow):
         self.widgets['button_translate'].clicked.connect(self.button_translate_click)
 
     def button_translate_click(self):
-        sf.msg_box("Bilgilendirme", "Programimizin bu kismi gelistirilme asamasindadir.")
+        self.db.updateDataFromTable("program_table", 2, "feature_value", self.comboBox_database.currentText())
+        self.word_translate = word_translate()
+        self.word_translate.show()
+        self.hide()
 
     def button_open_words_click(self):
         self.read_db = read_database()
@@ -74,8 +78,6 @@ class Ui(QtWidgets.QMainWindow):
         self.read_db = read_database()
         self.read_db.show()
         self.hide()
-
-    
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
