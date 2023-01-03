@@ -16,6 +16,7 @@ class save_manuel_word(QtWidgets.QMainWindow):
         self.widgets = dict()
         self.program_db = databaseProcess("./db/programDatabase.db")
         self.ex_counter = int(self.program_db.getDataFromTableWithId("program_table", 1)[0][2])
+        self.table_name = self.program_db.getDataFromTableWithId("program_table", 2)[0][2]
         self.db = databaseProcess("./db/words.db")
 
     def init_widgets (self):
@@ -44,8 +45,15 @@ class save_manuel_word(QtWidgets.QMainWindow):
         ex_1_tr = self.lineEdit_ex_1_tr.text()
         ex_2_en = self.lineEdit_ex_2_en.text()
         ex_2_tr = self.lineEdit_ex_1_tr.text()
-        data = (eng, tr, ex_1_en, ex_1_tr, ex_2_en, ex_2_tr)
-        self.db.setWordDataToTable("test", data)
+
+        if(self.ex_counter == 0):
+            data = (eng, tr, "", "", "", "")
+        elif(self.ex_counter == 1):
+            data = (eng, tr, ex_1_en, ex_1_tr, "", "")
+        else:
+            data = (eng, tr, ex_1_en, ex_1_tr, ex_2_en, ex_2_tr)
+
+        self.db.setWordDataToTable(self.table_name, data)
         
         self.lineEdit_english.setText("")
         self.lineEdit_turkish.setText("")
