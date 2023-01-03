@@ -17,14 +17,14 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>50</y>
-      <width>621</width>
-      <height>641</height>
+      <x>80</x>
+      <y>60</y>
+      <width>681</width>
+      <height>631</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="font">
         <font>
@@ -39,26 +39,26 @@
        </property>
       </widget>
      </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="button_translate">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Çeviri Yap</string>
-         </property>
-        </widget>
-       </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="button_translate">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Çeviri Yap</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QPushButton" name="button_save_manuel_word">
          <property name="sizePolicy">
@@ -78,9 +78,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="button_open_words">
+        <widget class="QLabel" name="label_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -91,11 +91,38 @@
           </font>
          </property>
          <property name="text">
-          <string>Kelimeleri Gör</string>
+          <string>Örnek Cümle Sayısı</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_ex_counter">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
          </property>
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="3" column="0">
+      <widget class="QPushButton" name="button_open_words">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Kelimeleri Gör</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -112,6 +139,12 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>button_translate</tabstop>
+  <tabstop>button_save_manuel_word</tabstop>
+  <tabstop>comboBox_ex_counter</tabstop>
+  <tabstop>button_open_words</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

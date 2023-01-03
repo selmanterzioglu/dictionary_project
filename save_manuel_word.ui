@@ -24,57 +24,6 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_turkish">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit_english">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_ex_2">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_ex_3">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Örnek Cümle 3</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_ex_2">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Örnek Cümle 2</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_tr">
        <property name="font">
@@ -84,6 +33,39 @@
        </property>
        <property name="text">
         <string>Türkçe</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_ex_1_tr">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Çeviri 1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="lineEdit_ex_2_en">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_en">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>İngilizce</string>
        </property>
       </widget>
      </item>
@@ -108,8 +90,8 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_ex_3">
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="lineEdit_turkish">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
@@ -117,20 +99,35 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_en">
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lineEdit_english">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
         </font>
        </property>
-       <property name="text">
-        <string>İngilizce</string>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="lineEdit_ex_1_tr">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
        </property>
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit_ex_4">
+      <widget class="QLineEdit" name="lineEdit_ex_2_tr">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEdit_ex_1_en">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
@@ -139,7 +136,7 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_ex_1">
+      <widget class="QLabel" name="label_ex_1_en">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
@@ -150,24 +147,27 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_ex_1">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-      </widget>
-     </item>
      <item row="5" column="0">
-      <widget class="QLabel" name="label_ex_4">
+      <widget class="QLabel" name="label_ex_2_tr">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
-        <string>Örnek Cümle 4</string>
+        <string>Çeviri 2</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_ex_2_en">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Örnek Cümle 2</string>
        </property>
       </widget>
      </item>
@@ -189,10 +189,10 @@
  <tabstops>
   <tabstop>lineEdit_english</tabstop>
   <tabstop>lineEdit_turkish</tabstop>
-  <tabstop>lineEdit_ex_1</tabstop>
-  <tabstop>lineEdit_ex_2</tabstop>
-  <tabstop>lineEdit_ex_3</tabstop>
-  <tabstop>lineEdit_ex_4</tabstop>
+  <tabstop>lineEdit_ex_1_en</tabstop>
+  <tabstop>lineEdit_ex_1_tr</tabstop>
+  <tabstop>lineEdit_ex_2_en</tabstop>
+  <tabstop>lineEdit_ex_2_tr</tabstop>
   <tabstop>button_save</tabstop>
  </tabstops>
  <resources/>
