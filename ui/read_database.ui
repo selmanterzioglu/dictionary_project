@@ -36,36 +36,36 @@
        </widget>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Görüntülenen Kelime Listesi</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox_database_list">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="word_list"/>
+      </item>
+      <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Görüntülenen Kelime Listesi</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox_database_list">
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="0">
-         <widget class="QTableWidget" name="word_list"/>
-        </item>
-        <item row="2" column="0">
+        <item row="0" column="0" colspan="2">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QPushButton" name="button_create_csv">
@@ -75,7 +75,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Seçili Veritabanından CSV Dosyası Oluştur</string>
+             <string>CSV Dosyası Oluştur</string>
             </property>
            </widget>
           </item>
@@ -87,11 +87,35 @@
              </font>
             </property>
             <property name="text">
-             <string>Seçili Kelimeyi Veritabanından Sil</string>
+             <string>Seçili Kelimeyi Listeden Sil</string>
             </property>
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="button_create_word_list">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Kelime Listesi Oluştur</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="button_delete_word_list">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Seçili Kelime Listesini Sil</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

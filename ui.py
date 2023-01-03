@@ -4,13 +4,16 @@ import sys
 from save_manuel_word import save_manuel_word
 from databaseProcess import databaseProcess
 from read_database import read_database
+import special_functions as sf
 
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()
-        uic.loadUi('main.ui', self)
-        self.db = databaseProcess("programDatabase.db")
+        uic.loadUi('./ui/main.ui', self)
         self.show()
+        self.db = databaseProcess("./db/programDatabase.db")
+        self.word_db = databaseProcess("./db/words.db")
+        
         self.widgets = dict()
         self.init()
 
@@ -18,13 +21,24 @@ class Ui(QtWidgets.QMainWindow):
         self.init_widgets()
         self.button_config()
         self.init_ex_combo_val()
-    
+        self.init_database_combo_val()
+
+    def init_database_combo_val(self):
+        word_table_list = self.word_db.list_table_name()
+        for i in word_table_list:
+            self.comboBox_database.addItem(str(i))
+
+        default_item = self.db.getDataFromTableWithId("program_table", 2)[0][2]
+        self.comboBox_database.setCurrentText(str(default_item))
+
+
     def init_ex_combo_val(self):
         self.comboBox_ex_counter.addItem(str(0))
         self.comboBox_ex_counter.addItem(str(1))
         self.comboBox_ex_counter.addItem(str(2))
 
-        default_item = self.db.getDataFromTableWithId("program_table", 1)[0][1]
+        default_item = self.db.getDataFromTableWithId("program_table", 1)[0][2]
+
         self.comboBox_ex_counter.setCurrentText(str(default_item))
 
 
@@ -39,10 +53,7 @@ class Ui(QtWidgets.QMainWindow):
         self.widgets['button_translate'].clicked.connect(self.button_translate_click)
 
     def button_translate_click(self):
-        dlg = QMessageBox(self)
-        dlg.setWindowTitle("Bilgilendirme")
-        dlg.setText("Programimizin bu kismi gelistirilme asamasindadir.")
-        button = dlg.exec()
+        sf.msg_box("Bilgilendirme", "Programimizin bu kismi gelistirilme asamasindadir.")
 
     def button_open_words_click(self):
         self.read_db = read_database()
@@ -53,7 +64,8 @@ class Ui(QtWidgets.QMainWindow):
         self.saveFileDialog()
 
     def button_save_manuel_word_click(self):
-        self.db.updateDataFromTable("program_table", 1, "default_ex_counter", self.comboBox_ex_counter.currentText())
+        self.db.updateDataFromTable("program_table", 1, "feature_value", self.comboBox_ex_counter.currentText())
+        self.db.updateDataFromTable("program_table", 2, "feature_value", self.comboBox_database.currentText())
         self.save_manuel_word = save_manuel_word()
         self.save_manuel_word.show()
         self.hide()
