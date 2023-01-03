@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, uic
 import sys
 from databaseProcess import databaseProcess
-from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QMessageBox
 
 class save_manuel_word(QtWidgets.QMainWindow):
     def __init__(self):
@@ -12,7 +12,8 @@ class save_manuel_word(QtWidgets.QMainWindow):
     
     def init(self):
         self.widgets = dict()
-        self.ex_counter = 1
+        self.program_db = databaseProcess("programDatabase.db")
+        self.ex_counter = self.program_db.getDataFromTableWithId("program_table", 1)[0][1]
         self.init_widgets()
         self.button_config()
         self.db = databaseProcess("words.db")
@@ -24,46 +25,38 @@ class save_manuel_word(QtWidgets.QMainWindow):
         self.widgets['button_save'].clicked.connect(self.button_save_click)
 
         if(self.ex_counter == 0):
-            self.lineEdit_ex_1.hide()
-            self.label_ex_1.hide()
-            self.lineEdit_ex_2.hide()
-            self.label_ex_2.hide()
-            self.lineEdit_ex_3.hide()
-            self.label_ex_3.hide()
-            self.lineEdit_ex_4.hide()
-            self.label_ex_4.hide()
+            self.label_ex_1_en.hide()
+            self.lineEdit_ex_1_en.hide()
+            self.label_ex_1_tr.hide()
+            self.lineEdit_ex_1_tr.hide()
+
+            self.label_ex_2_en.hide()
+            self.lineEdit_ex_2_en.hide()
+            self.label_ex_2_tr.hide()
+            self.lineEdit_ex_2_tr.hide()
+
         if(self.ex_counter == 1):
-            self.lineEdit_ex_2.hide()
-            self.label_ex_2.hide()
-            self.lineEdit_ex_3.hide()
-            self.label_ex_3.hide()
-            self.lineEdit_ex_4.hide()
-            self.label_ex_4.hide()
-        elif(self.ex_counter == 2):
-            self.lineEdit_ex_3.hide()
-            self.label_ex_3.hide()
-            self.lineEdit_ex_4.hide()
-            self.label_ex_4.hide()
-        elif(self.ex_counter == 3):
-            self.lineEdit_ex_4.hide()
-            self.label_ex_4.hide()
-    
+            self.label_ex_2_en.hide()
+            self.lineEdit_ex_2_en.hide()
+            self.label_ex_2_tr.hide()
+            self.lineEdit_ex_2_tr.hide()
+
     def button_save_click(self):
         eng = self.lineEdit_english.text()
         tr = self.lineEdit_turkish.text()
-        ex_1 = self.lineEdit_ex_1.text()
-        ex_2 = self.lineEdit_ex_2.text()
-        ex_3 = self.lineEdit_ex_3.text()
-        ex_4 = self.lineEdit_ex_4.text()
-        data = data = (eng, tr, ex_1, ex_2, ex_3, ex_4)
+        ex_1_en = self.lineEdit_ex_1_en.text()
+        ex_1_tr = self.lineEdit_ex_1_tr.text()
+        ex_2_en = self.lineEdit_ex_2_en.text()
+        ex_2_tr = self.lineEdit_ex_1_tr.text()
+        data = (eng, tr, ex_1_en, ex_1_tr, ex_2_en, ex_2_tr)
         self.db.setWordDataToTable("test", data)
         
         self.lineEdit_english.setText("")
         self.lineEdit_turkish.setText("")
-        self.lineEdit_ex_1.setText("")
-        self.lineEdit_ex_2.setText("")
-        self.lineEdit_ex_3.setText("")
-        self.lineEdit_ex_4.setText("")
+        self.lineEdit_ex_1_en.setText("")
+        self.lineEdit_ex_1_tr.setText("")
+        self.lineEdit_ex_2_en.setText("")
+        self.lineEdit_ex_2_tr.setText("")
 
         dlg = QMessageBox(self)
         dlg.setWindowTitle("Kayit Basarili")
