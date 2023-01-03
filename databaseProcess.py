@@ -91,8 +91,8 @@ class databaseProcess():
         db.close()
         return data
     
-    def deleteTable(self, table_name):
-        tableList = self.listtable_name()
+    def delete_table(self, table_name):
+        tableList = self.list_table_name()
 
         control = False
         for i in tableList:
